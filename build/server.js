@@ -12,9 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const process_1 = require("process");
 const data_source_1 = require("./data-source");
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const swagger_1 = require("./configs/swagger");
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.set('name', process_1.env.APP_NAME);
@@ -23,6 +28,8 @@ app.set('host', process_1.env.APP_HOST);
 app.set('port', process_1.env.APP_PORT);
 app.set('env', process_1.env.APP_ENV);
 app.set('db_name', process_1.env.DB_NAME);
+(0, swagger_1.setupSwagger)(app);
+app.use('/api/auth', auth_routes_1.default);
 data_source_1.dataSource.initialize()
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
     app.listen(app.get('port'), () => {

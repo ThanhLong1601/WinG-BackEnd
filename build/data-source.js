@@ -38,7 +38,7 @@ require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-exports.dataSource = new typeorm_1.DataSource({
+const config = {
     type: 'mysql',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -46,8 +46,11 @@ exports.dataSource = new typeorm_1.DataSource({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     synchronize: true,
-    logging: false,
+    charset: 'utf8mb4',
     entities: ['src/models/**/*.ts'],
     migrations: ['src/migrations/**/*.ts'],
-});
+    migrationsTableName: 'content_migration',
+};
+exports.dataSource = new typeorm_1.DataSource(config);
+exports.default = config;
 //# sourceMappingURL=data-source.js.map

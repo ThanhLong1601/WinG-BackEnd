@@ -7,7 +7,7 @@ interface UserDto {
   avatar: string;
   name: string;
   email: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   ethnicity : string;
   currentOccupation: string;
   highestAttainedEducation: string;
@@ -17,7 +17,7 @@ interface UserDto {
   miscarriages: number;
 }
 
-export function toUserDto(user: UserModel): UserDto {
+export function toUserDto(user: UserModel) {
   return {
     uid: user.uid,
     phone: user.phone,
@@ -33,5 +33,6 @@ export function toUserDto(user: UserModel): UserDto {
     vaginalDeliveries: user.vaginalDeliveries,
     caesareanSections: user.caesareanSections,
     miscarriages: user.miscarriages,
+    needUpdateProfile: user.needUpdateProfile,
   };
 }

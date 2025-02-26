@@ -12,7 +12,7 @@ export class UserModel extends BaseModel {
   @Column('varchar', { name: 'pin_code' })
   pinCode: string;
 
-  @Column('varchar', { name: 'is_kkh_patient', default: true })
+  @Column('boolean', { name: 'is_kkh_patient', default: true })
   isKkhPatient: boolean;
 
   @Column('varchar', { name: 'avatar', nullable: true })
@@ -24,8 +24,8 @@ export class UserModel extends BaseModel {
   @Column('varchar', { name: 'email' , nullable: true })
   email: string;
 
-  @Column('varchar', { name: 'date_of_birth' , nullable: true })
-  dateOfBirth: string;
+  @Column('timestamp', { name: 'date_of_birth' , nullable: true })
+  dateOfBirth: Date;
 
   @Column('varchar', { name: 'ethnicity', nullable: true })
   ethnicity: string;
@@ -36,16 +36,16 @@ export class UserModel extends BaseModel {
   @Column('varchar', { name: 'highest_attained_education', nullable: true })
   highestAttainedEducation: string;
 
-  @Column('boolean', { name: 'has_pregnancies', default: true })
+  @Column('boolean', { name: 'has_pregnancies', default: false })
   hasPregnancies: boolean;
 
-  @Column('int', { name: 'vaginal_deliveries', nullable: true })
+  @Column('int', { name: 'vaginal_deliveries', default: 0 })
   vaginalDeliveries: number;
 
-  @Column('int', { name: 'caesarean_sections', nullable: true })
+  @Column('int', { name: 'caesarean_sections', default: 0 })
   caesareanSections: number;
 
-  @Column('int', { name: 'miscarriages', nullable: true })
+  @Column('int', { name: 'miscarriages', default: 0 })
   miscarriages: number;
 
   @Column('boolean', { name: 'need_update_profile', default: true })

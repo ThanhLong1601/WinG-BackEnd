@@ -1,9 +1,12 @@
 import { Column } from "typeorm";
 
 export class BaseModel {
-  @Column('varchar', { name: 'created_at' })
-  createdAt: string;
+  @Column('timestamp', { name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 
-  @Column('varchar', { name: 'updated_at' })
-  updatedAt: string;
+  @Column('timestamp', { name: 'updated_at', nullable: true, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
+
+  @Column('timestamp', { name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

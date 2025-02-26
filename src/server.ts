@@ -1,11 +1,16 @@
+import 'reflect-metadata';
 import express from 'express';
+import dotenv from 'dotenv';
 import { env } from 'process';
 import { dataSource } from './data-source';
-import authRouter from './routes/user.routes';
+import authRouter from './routes/auth.routes';
+import { setupSwagger } from './configs/swagger';
+import { errors } from 'celebrate';
+
+dotenv.config();
+
 const app = express();
-
 app.use(express.json());
-
 
 app.set('name', env.APP_NAME);
 app.set('version', env.APP_VERSION);
@@ -14,7 +19,10 @@ app.set('port', env.APP_PORT);
 app.set('env', env.APP_ENV);
 app.set('db_name', env.DB_NAME);
 
+setupSwagger(app);
+
 app.use('/api/auth', authRouter);
+app.use(errors());
 
 dataSource.initialize()
   .then(async () => {
