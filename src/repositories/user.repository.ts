@@ -1,7 +1,7 @@
 import { UserModel } from './../models/user.model';
 import { dataSource } from "../data-source";
 
-export const getUserById = async (uid: string) => {
+export const getUserByUid = async (uid: string) => {
   const userRepository = dataSource.getRepository(UserModel);
   return userRepository.findOne({ where: { uid } });
 };
@@ -16,3 +16,10 @@ export const saveUser = async (data: Partial<UserModel>): Promise<UserModel> => 
   const user =  userRepository.create(data);
   return userRepository.save(user);
 };
+
+export const updateUser = async (user: UserModel, data: Partial<UserModel>) => {
+  const userRepository = dataSource.getRepository(UserModel);
+
+  await userRepository.update(user.uid, data);
+  return { ...user, ...data };
+}

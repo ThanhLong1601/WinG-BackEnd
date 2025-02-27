@@ -1,5 +1,5 @@
-declare namespace Express {
-  export interface Request {
-    user?: any;
-  }
+import { Request } from 'express';
+
+export interface CustomRequest extends Request {
+  user?: any;
 }

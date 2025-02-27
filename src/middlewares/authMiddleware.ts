@@ -1,44 +1,47 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt, { Jwt, JwtPayload } from 'jsonwebtoken';
-import { getUserById } from '../repositories/user.repository';
+import { Response, NextFunction } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { getUserByUid } from '../repositories/user.repository';
+import { CustomRequest } from '../utils/CustomRequest';
 
-export const appAuth = async (req: Request, res: Response, next: NextFunction) => {
+export const appAuth = async (req: CustomRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   let token;
 
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   } else {
-    return res.status(401).json({
+    res.status(401).json({ 
       message: 'Unauthorized',
-      code: null,
-      status: 401
+      status: 401,
+      data: null
     });
   }
 
   if (!token) {
-    return res.status(401).json({
+    res.status(401).json({
       message: 'Access denied. No token provided',
-      code: null,
-      status: 404
+      status: 401,
+      data: null
     });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
-    const user = await getUserById(decoded.id);
+    const user = await getUserByUid(decoded.uid);
     if (!user) {
-      return res.status(401).json({
+      res.status(404).json({
         message: 'User not found',
-        code: null,
-        status: 404
+        status: 404,
+        data: null
       });
     }
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({
+    res.status(401).json({
       message: 'Unauthorized access',
+      status: 401,
+      data: null
     });
   }
 }

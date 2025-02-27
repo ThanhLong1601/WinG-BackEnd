@@ -1,0 +1,94 @@
+paths:
+  /user/update-profile:
+    patch:
+      tags:
+        - 'User'
+      description: Update user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                avatar:
+                  type: string
+                name:
+                  type: string
+                  required: true
+                dateOfBirth:
+                  type: string
+                  format: date
+                  required: true
+                isKkhPatient:
+                  type: boolean
+                  example: true
+                ethnicity:
+                  type: string
+                  required: true
+                currentOccupation:
+                  type: string
+                  required: true
+                highestAttainedEducation:
+                  type: string
+                  required: true
+                hasPregnancies:
+                  type: boolean
+                vaginalDeliveries:
+                  type: integer
+                  minimum: 0
+                caesareanSections:
+                  type: integer
+                  minimum: 0
+                miscarriages:
+                  type: integer
+                  minimum: 0
+      responses:
+        200:
+          description: User profile updated successfully
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        401:
+          description: 'Unauthorized. Invalid or missing API key.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        404:
+          description: 'User not found.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

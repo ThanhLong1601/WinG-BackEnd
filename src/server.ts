@@ -6,11 +6,18 @@ import { dataSource } from './data-source';
 import authRouter from './routes/auth.routes';
 import { setupSwagger } from './configs/swagger';
 import { errors } from 'celebrate';
+import compression from 'compression';
+import cors from 'cors';
+import { errorHandler } from './middlewares/errorHandler';
+import userRouter from './routes/user.routes';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(compression());
+app.use(cors());
 
 app.set('name', env.APP_NAME);
 app.set('version', env.APP_VERSION);
@@ -19,10 +26,13 @@ app.set('port', env.APP_PORT);
 app.set('env', env.APP_ENV);
 app.set('db_name', env.DB_NAME);
 
-setupSwagger(app);
-
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+
 app.use(errors());
+app.use(errorHandler);
+
+setupSwagger(app);
 
 dataSource.initialize()
   .then(async () => {
