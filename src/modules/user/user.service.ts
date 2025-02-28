@@ -1,17 +1,16 @@
 import { toUserDto } from "../../dtos/user.dto";
 import { UserModel } from "../../models/user.model";
 import { getUserByUid, saveUser, updateUser } from "../../repositories/user.repository";
-import { AppError } from "../../utils/AppError";
 
 export async function updateUserProfile(uid: string, body: any) {
   const user = await getUserByUid(uid);
 
   if (!user) {
-    throw new AppError({
+    throw {
       message: 'User not found',
       status: 404,
       data: null
-    });
+    };
   }
 
   const { hasPregnancies, vaginalDeliveries, caesareanSections, miscarriages, ...others} = body;

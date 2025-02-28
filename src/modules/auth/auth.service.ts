@@ -2,28 +2,27 @@ import { toUserDto } from "../../dtos/user.dto";
 import { getUserByPhoneNumber, saveUser } from "../../repositories/user.repository";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../../utils/jwtToken";
-import { AppError } from "../../utils/AppError";
 
 export async function checkUserLogin(body: any) {
   const { pinCode, phone } = body;
   const user = await getUserByPhoneNumber(phone);
 
   if (!user) {
-    throw new AppError({
-      message: 'User not found',
+    throw {
+      message: 'Pin Code or Phone number is incorrect, Please try again!',
       status: 404,
       data: null
-    });
+    };
   }
 
   const isMatch = await bcrypt.compare(pinCode, user.pinCode);
 
   if (!isMatch) {
-    throw new AppError({
-      message: 'Password is incorrect',
+    throw {
+      message: 'Pin Code or Phone number is incorrect, Please try again!',
       status: 400,
       data: null
-    });
+    };
   }
 
   const token = generateToken({ uid: user.uid });
@@ -37,16 +36,16 @@ export async function createUser(body: any) {
   const user = await getUserByPhoneNumber(phone);
 
   if (user) {
-    throw new AppError({
+    throw {
       message: 'User already exists',
       status: 400,
       data: null
-    });
+    };
   }
 
   const pinHash = await bcrypt.hash(pinCode, 10);
 
-  const newUser = await saveUser({ ...others, pinCode: pinHash });
+  const newUser = await saveUser({ ...others, phone, pinCode: pinHash });
 
   return toUserDto(newUser);
 }

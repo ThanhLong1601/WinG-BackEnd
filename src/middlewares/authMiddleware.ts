@@ -15,6 +15,7 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
       status: 401,
       data: null
     });
+    return;
   }
 
   if (!token) {
@@ -23,6 +24,7 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
       status: 401,
       data: null
     });
+    return;
   }
 
   try {
@@ -34,6 +36,7 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
         status: 404,
         data: null
       });
+      return;
     }
     req.user = decoded;
     next();
@@ -43,5 +46,6 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
       status: 401,
       data: null
     });
+    return;
   }
 }

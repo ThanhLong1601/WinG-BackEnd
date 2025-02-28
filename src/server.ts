@@ -8,7 +8,6 @@ import { setupSwagger } from './configs/swagger';
 import { errors } from 'celebrate';
 import compression from 'compression';
 import cors from 'cors';
-import { errorHandler } from './middlewares/errorHandler';
 import userRouter from './routes/user.routes';
 
 dotenv.config();
@@ -30,7 +29,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
 app.use(errors());
-app.use(errorHandler);
 
 setupSwagger(app);
 
