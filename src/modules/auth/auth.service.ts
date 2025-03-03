@@ -9,7 +9,7 @@ export async function checkUserLogin(body: any) {
 
   if (!user) {
     throw {
-      message: 'Pin Code or Phone number is incorrect, Please try again!',
+      message: 'Pin Code or Phone number is not correct. Please try again!',
       status: 404,
       data: null
     };
@@ -19,7 +19,7 @@ export async function checkUserLogin(body: any) {
 
   if (!isMatch) {
     throw {
-      message: 'Pin Code or Phone number is incorrect, Please try again!',
+      message: 'Pin Code or Phone number is not correct. Please try again!',
       status: 400,
       data: null
     };
