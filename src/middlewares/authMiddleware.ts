@@ -31,9 +31,9 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
     const user = await getUserByUid(decoded.uid);
     if (!user) {
-      res.status(404).json({
+      res.status(401).json({ // fix status code
         message: 'User not found',
-        status: 404,
+        status: 401,
         data: null
       });
       return;

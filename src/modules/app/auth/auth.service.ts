@@ -1,7 +1,7 @@
-import { toUserDto } from "../../dtos/user.dto";
-import { getUserByPhoneNumber, saveUser } from "../../repositories/user.repository";
+import { toUserDto } from "../../../dtos/user.dto";
+import { getUserByPhoneNumber, saveUser } from "../../../repositories/user.repository";
 import bcrypt from 'bcryptjs';
-import { generateToken } from "../../utils/jwtToken";
+import { generateToken } from "../../../utils/jwtToken";
 
 export async function checkUserLogin(body: any) {
   const { pinCode, phone } = body;

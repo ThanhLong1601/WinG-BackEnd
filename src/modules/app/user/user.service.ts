@@ -1,6 +1,6 @@
-import { toUserDto } from "../../dtos/user.dto";
-import { UserModel } from "../../models/user.model";
-import { getUserByUid, saveUser, updateUser } from "../../repositories/user.repository";
+import { toUserDto } from "../../../dtos/user.dto";
+import { UserModel } from "../../../models/user.model";
+import { getUserByUid, saveUser, updateUser } from "../../../repositories/user.repository";
 
 export async function updateUserProfile(uid: string, body: any) {
   const user = await getUserByUid(uid);

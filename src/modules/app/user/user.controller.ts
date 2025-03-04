@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { CustomRequest } from "../../utils/CustomRequest";
+import { CustomRequest } from "../../../utils/CustomRequest";
 import { updateUserProfile } from "./user.service";
 
 export class UserController {

@@ -1,0 +1,96 @@
+paths:
+  /admin/auth/register:
+    post:
+      tags:
+        - 'Admin Auth'
+      description: Admin created account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                username:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+                email:
+                  type: string
+                  required: true
+                name:
+                  type: string
+
+      responses:
+        200:
+          description: 'Admin account created successfully'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+  /admin/auth/login:
+    post:
+      tags:
+        - 'Admin Auth'
+      description: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                username:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+
+      responses:
+        200:
+          description: Logged in Admin
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
