@@ -16,7 +16,7 @@ export async function getAdmin(username?: string, email?: string) {
   return admin;
 }
 
-export async function getAdminById(uid: string) {
+export async function getAdminByUid(uid: string) {
   const adminRepository = dataSource.getRepository(AdminModel);
 
   const admin = await adminRepository.findOne({ where: {uid} });

@@ -10,6 +10,7 @@ import compression from 'compression';
 import cors from 'cors';
 import userRouter from './routes/app/user.routes';
 import adminAuthRouter from './routes/admin/auth.routes';
+import adminContentRouter from './routes/admin/admin-content.routes';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/user', userRouter);
   Admin Routes
 */
 app.use('/api/admin/auth', adminAuthRouter);
+app.use('/api/admin', adminContentRouter);
 
 
 app.use(errors());

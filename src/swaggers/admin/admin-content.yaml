@@ -1,0 +1,125 @@
+paths:
+  /admin/contents:
+    post:
+      tags:
+        - 'Admin Content'
+      description: Add content
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                typeOfContent:
+                  type: string
+                  required: true
+                  example: 'article || video || infographic'
+                requiredMonths:
+                  type: integer
+                  required: true
+                banner:
+                  type: string
+                  required: false
+                title:
+                  type: string
+                  required: true
+                categoryId:
+                  type: string
+                  required: true
+                content:
+                  type: string
+                  required: false
+                images:
+                  type: string
+                  required: false
+                video:
+                  type: string
+                  required: false
+      responses:
+        200:
+          description: Admin add comment
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
+  /admin/categories:
+    post:
+      tags:
+        - 'Admin Content'
+      description: Add category
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        description: Comment data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                categories:
+                  type: array
+                  required: true
+                  items:
+                    type: 'object'
+                    properties:
+                      name:
+                        type: string
+                        required: true
+      responses:
+        200:
+          description: Admin add comment
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
