@@ -10,8 +10,8 @@ export class ContentModel extends BaseModel {
   @Column('varchar', { name: 'type_of_content' })
   typeOfContent: string;
 
-  @Column('int', { name: 'required_months', nullable: true })
-  requiredMonths: number;
+  @Column('int', { name: 'required_days', nullable: true })
+  requiredDays: number;
 
   @Column('varchar', { name: 'banner', nullable: true })
   banner: string;
