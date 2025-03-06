@@ -13,3 +13,10 @@ export function toCategoryDto(category: CategoryContentModel): CategoryDto {
     status: category.status
   };
 }
+
+export function toShortCategoryDto(category: CategoryContentModel): Partial<CategoryDto> {
+  return {
+    cateid: category.cateid,
+    name: category.name,
+  };
+}

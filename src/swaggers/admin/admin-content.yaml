@@ -1,5 +1,5 @@
 paths:
-  /admin/categories:
+  /admin/contents/categories:
     post:
       tags:
         - 'Admin Content'
@@ -8,7 +8,7 @@ paths:
         - bearerAuth: []
 
       requestBody:
-        description: Comment data
+        description: 'Add category'
         required: true
         content:
           application/json:
@@ -26,7 +26,141 @@ paths:
                         required: true
       responses:
         200:
-          description: Admin add comment
+          description: Category has been added
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+    get:
+      tags:
+        - 'Admin Content'
+      description: Get all category
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          description: All category
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
+  /admin/contents/categories/dropdown:
+    get:
+      tags:
+        - 'Admin Content'
+      description: Get all category for dropdown
+      security:
+        - bearerAuth: []
+
+      responses:
+        200:
+          description: List of category
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
+  /admin/contents/categories/{cateid}:
+    patch:
+      tags:
+        - 'Admin Content'
+      description: Update category
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cateid
+          required: true
+          schema:
+            type: string
+          description: Category id
+      requestBody:
+        description: 'Update category'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                name:
+                  type: string
+                  required: true
+                status:
+                  type: string
+                  example: 'active || inactive'
+                  required: true
+      responses:
+        200:
+          description: Update category successfull
           schema:
             type: 'object'
             properties:
@@ -93,7 +227,7 @@ paths:
                   required: false
       responses:
         200:
-          description: Admin add comment
+          description: Add content successfull
           schema:
             type: 'object'
             properties:
@@ -117,39 +251,33 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-
-  /admin/categories/{cateid}:
-    patch:
+    get:
       tags:
         - 'Admin Content'
-      description: Update category
+      description: Get all content
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: cateid
-          required: true
+        - in: query
+          name: filter
+          description: 'Filter content by category ID'
           schema:
             type: string
-          description: Category id
-      requestBody:
-        description: 'Update category'
-        required: true
-        content:
-          application/json:
-            schema:
-              type: 'object'
-              properties:
-                name:
-                  type: string
-                  required: true
-                status:
-                  type: string
-                  example: 'active || inactive'
-                  required: true
+            example: all
+            enum: ['all', <category ID>]
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            example: 10
       responses:
         200:
-          description: Admin update category
+          description: All category
           schema:
             type: 'object'
             properties:
@@ -220,10 +348,6 @@ paths:
                 video:
                   type: string
                   required: false
-                status:
-                  type: string
-                  example: 'active || inactive'
-                  required: false
       responses:
         200:
           description: Admin add comment
@@ -250,7 +374,58 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-  
+  /admin/contents/{conid}/status:
+    patch:
+      tags:
+        - 'Admin Content'
+      description: Update content status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: conid
+          required: true
+          schema:
+            type: string
+          description: Content id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                status:
+                  type: string
+                  example: 'active || inactive'
+                  required: true
+      responses:
+        200:
+          description: Admin add comment
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
 components:
   securitySchemes:
     bearerAuth:

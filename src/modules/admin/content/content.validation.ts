@@ -3,10 +3,19 @@ import { CONTENT_TYPE, CONTENT_STATUS }from "../../../constants/content.constant
 
 export const createListCategoryValidation = celebrate({
   [Segments.BODY]: Joi.object({
-    categories: Joi.array().items(Joi.object({
-      name: Joi.string().required()
-    })).required().messages({
-      'any.required': 'Categories is required'
+    categories: Joi.array()
+    .min(1)
+    .items(
+      Joi.object({
+      name: Joi.string().required().messages({
+        'any.required': 'Category name is required',
+        'string.empty': 'Category name cannot be empty'
+      })
+    }))
+    .required()
+    .messages({
+      'any.required': 'Categories is required',
+      'array.min': 'Please input at least one category'
     })
   }),
 });
@@ -45,9 +54,7 @@ export const updateCategoryValidation = celebrate({
     status: Joi.string().valid(...Object.values(CONTENT_STATUS)).messages({
       'any.only': 'Status must be active or inactive'
     }),
-    name: Joi.string().messages({
-      'any.required': 'Name is required'
-    }),
+    name: Joi.string()
   }).or('status', 'name'),
 });
 
@@ -57,11 +64,20 @@ export const updateContentValidation = celebrate({
       'any.required': 'Content id is required'
     }),
   }),
-  [Segments.BODY]: contentSchema.keys({
-    status: Joi.string().valid(...Object.values(CONTENT_STATUS)).messages({
-      'any.only': 'Status must be active or inactive'
-    }),
-  }).or('status', ...Object.keys(contentSchema.describe().keys)),
+  [Segments.BODY]: contentSchema,
 });
 
+export const updateContentStatusValidation = celebrate({
+  [Segments.PARAMS]: Joi.object({
+    conid: Joi.string().required().messages({
+      'any.required': 'Content id is required'
+    }),
+  }),
+  [Segments.BODY]: Joi.object({
+    status: Joi.string().required().valid(...Object.values(CONTENT_STATUS)).messages({
+      'any.required': 'Status is required',
+      'any.only': 'Status must be active or inactive'
+    }),
+  }),
+});
 
