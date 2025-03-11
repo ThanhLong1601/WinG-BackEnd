@@ -206,7 +206,7 @@ paths:
                   type: string
                   required: true
                   example: 'article'
-                requiredDays:
+                requiredMonths:
                   type: integer
                   required: true
                 banner:
@@ -334,7 +334,7 @@ paths:
                   type: string
                   required: false
                   example: 'article'
-                requiredDays:
+                requiredMonths:
                   type: integer
                   required: false
                 banner:

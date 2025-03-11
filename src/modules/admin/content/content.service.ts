@@ -102,7 +102,7 @@ export async function createContent(body: any) {
   const newContent = await saveContent({
     ...body,
     category,
-    requiredDays: body.requiredDays * 30
+    requiredMonths: body.requiredMonths * 30
   });
 
   return toContentDto(newContent);
@@ -113,12 +113,12 @@ export async function updateContentByConId(conId: string, body: any) {
   const exitingContent = await checkContentByConid(conId);
   if (!exitingContent) throw new ApiError ({ message: 'Content not found', status: 404, data: null });
 
-  const {type, content, video, images, categoryId, requiredDays, ...others} = body;
+  const {type, content, video, images, categoryId, requiredMonths, ...others} = body;
 
   const updated: Partial<ContentModel> = {
     ...exitingContent,
     ...others,
-    requiredDays: requiredDays !== '' ? requiredDays * 30 : exitingContent.requiredDays,
+    requiredMonths: requiredMonths !== '' ? requiredMonths * 30 : exitingContent.requiredMonths,
   };
 
   // Check input data of type

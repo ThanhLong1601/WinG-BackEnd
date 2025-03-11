@@ -5,7 +5,7 @@ import { CategoryDto, toCategoryDto } from "./category.dto";
 interface ContentDto {
   conid: string,
   type: string,
-  requiredDays: number,
+  requiredMonths: number,
   banner: string,
   title: string,
   category: Partial<CategoryDto>,
@@ -21,7 +21,7 @@ export function toContentDto (content: ContentModel): ContentDto {
   return {
     conid: content.conid,
     type: content.type,
-    requiredDays: content.requiredDays / 30,
+    requiredMonths: content.requiredMonths / 30,
     banner: content.banner,
     title: content.title,
     category: content.category ? toCategoryDto(content.category) : null,
