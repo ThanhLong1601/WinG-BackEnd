@@ -1,9 +1,9 @@
 import { CATEGORY_CONTENT_STATUS, CONTENT_TYPE } from "../../../constants/content.constants";
 import { toCategoryDto } from "../../../dtos/category.dto";
-import { toContentDto } from "../../../dtos/content.dto";
+import { toContentDto, toListContentDto } from "../../../dtos/content.dto";
 import { CategoryContentModel } from "../../../models/category_content.model";
 import { ContentModel } from "../../../models/content.model";
-import { checkCategoryByCateid, checkCategoryByName, checkContentByConid, getAllCategory, getAllCategoryAndContent, getAllContents, saveCategory, saveContent, updateCategory } from "../../../repositories/content.repository";
+import { checkCategoryByCateid, checkCategoryByName, checkContentByConid, countContentByType, getAllCategory, getAllCategoryAndContent, getAllContents, saveCategory, saveContent, updateCategory } from "../../../repositories/content.repository";
 import { ApiError } from "../../../utils/apiError";
 
 export async function createListCategory(listCat: Partial<CategoryContentModel>[]) {
@@ -33,6 +33,14 @@ export async function createListCategory(listCat: Partial<CategoryContentModel>[
   const result = await saveCategory(newCategories);
 
   return result;
+}
+
+export async function getCategoryByCateid(cateId: string) {
+  const category = await checkCategoryByCateid(cateId);
+
+  if (!category) throw new ApiError ({ message: 'Category not found', status: 404, data: null });
+
+  return toCategoryDto(category);
 }
 
 export async function updateCategoryByCateid(cateId: string, body: any) {
@@ -166,6 +174,20 @@ export async function getListContent(query: any) {
   const contents = result[0];
   const total = result[1];
 
-  return { contents: contents, total };
+  return { contents: toListContentDto(contents), total };
 }
 
+
+export async function getContentStatistics() {
+  const result = await countContentByType();
+
+  return result;
+}
+
+export async function getContentByConid(conId: string) {
+  const content = await checkContentByConid(conId);
+
+  if (!content) throw new ApiError ({ message: 'Content not found', status: 404, data: null });
+
+  return toContentDto(content);
+}

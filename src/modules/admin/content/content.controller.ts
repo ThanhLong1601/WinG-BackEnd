@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomRequest } from "../../../utils/CustomRequest";
-import { createContent, createListCategory, getAllCategoryStatistic, getListCategoryForDropDown, getListContent, updateCategoryByCateid, updateContentByConId } from "./content.service";
+import { createContent, createListCategory, getAllCategoryStatistic, getCategoryByCateid, getContentByConid, getContentStatistics, getListCategoryForDropDown, getListContent, updateCategoryByCateid, updateContentByConId } from "./content.service";
 
 export class ContentController {
 
@@ -35,6 +35,23 @@ export class ContentController {
         message: 'Category updated successfully',
         status: 200,
         data: newCategory
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /*
+    Get category
+  */
+  static async getCategoryDetails(req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const { cateid } = req.params;
+      const category = await getCategoryByCateid(cateid);
+      res.status(200).json({
+        message: 'Category retrieved successfully',
+        status: 200,
+        data: category
       });
     } catch (error) {
       next(error);
@@ -144,4 +161,30 @@ export class ContentController {
     }
   }
 
+  static async getContentStatistic(req: Request, res: Response, next: NextFunction) {
+    try {
+      const contents = await getContentStatistics();
+      res.status(200).json({
+        message: 'Content retrieved successfully',
+        status: 200,
+        data: contents
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getContentDetails(req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const { conid } = req.params;
+      const content = await getContentByConid(conid);
+      res.status(200).json({
+        message: 'Content retrieved successfully',
+        status: 200,
+        data: content
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

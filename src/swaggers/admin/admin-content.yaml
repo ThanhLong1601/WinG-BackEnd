@@ -130,6 +130,36 @@ paths:
                 description: 'Error message.'
 
   /admin/contents/categories/{cateid}:
+    get:
+      tags:
+        - 'Admin Content'
+      description: Get category by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cateid
+          required: true
+          schema:
+            type: string
+          description: Category id
+      responses:
+        200:
+          description: Category details
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
     patch:
       tags:
         - 'Admin Content'
@@ -306,8 +336,63 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-                
+
+  /admin/contents/statistics:
+    get:
+      tags:
+        - 'Admin Content'
+      description: Get content statistics
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: All content statistics
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
   /admin/contents/{conid}:
+    get:
+      tags:
+        - 'Admin Content'
+      description: Get content by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: conid
+          required: true
+          schema:
+            type: string
+          description: Content id
+      responses:
+        200:
+          description: Content details
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
     patch:
       tags:
         - 'Admin Content'

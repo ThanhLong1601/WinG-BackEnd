@@ -10,6 +10,8 @@ adminContentRouter.post("/contents/categories", /*adminAuth,*/ createListCategor
 
 adminContentRouter.get("/contents/categories", /*adminAuth,*/ ContentController.getCategoryAndStatistics);
 
+adminContentRouter.get("/contents/categories/:cateid", /*adminAuth,*/ ContentController.getCategoryDetails);
+
 adminContentRouter.patch("/contents/categories/:cateid", /*adminAuth,*/ updateCategoryValidation, ContentController.updateCategory);
 
 adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ ContentController.getCategoryForDropDown);
@@ -19,6 +21,10 @@ adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ ContentCo
 adminContentRouter.post("/contents", /*adminAuth,*/ createContentValidation, ContentController.addContent);
 
 adminContentRouter.get("/contents", /*adminAuth,*/ ContentController.getContents);
+
+adminContentRouter.get("/contents/statistics", /*adminAuth,*/ ContentController.getContentStatistic);
+
+adminContentRouter.get("/contents/:conid", /*adminAuth,*/ ContentController.getContentDetails);
 
 adminContentRouter.patch("/contents/:conid", /*adminAuth,*/ updateContentValidation, ContentController.updateContent);
 

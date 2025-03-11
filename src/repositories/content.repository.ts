@@ -2,7 +2,7 @@ import { In, Not } from "typeorm";
 import { dataSource } from "../data-source";
 import { CategoryContentModel } from "../models/category_content.model";
 import { ContentModel } from "../models/content.model";
-import { CONTENT_STATUS } from "../constants/content.constants";
+import { CONTENT_STATUS, CONTENT_TYPE } from "../constants/content.constants";
 
 /*
   -----------------------REPOSITORY FOR CATEGORY
@@ -97,3 +97,14 @@ export async function getAllContents(filter: string, page: number, perPage: numb
   return result;
 }
 
+export async function countContentByType() {
+  const contentRepository = dataSource.getRepository(ContentModel);
+  
+  const [articleCount, videoCount, infographicCount] = await Promise.all([
+    contentRepository.count({ where: { type: CONTENT_TYPE.ARTICLE } }),
+    contentRepository.count({ where: { type: CONTENT_TYPE.VIDEO } }),
+    contentRepository.count({ where: { type: CONTENT_TYPE.INFOGRAPHIC } }),
+  ]);
+
+  return { articleCount, videoCount, infographicCount };
+}

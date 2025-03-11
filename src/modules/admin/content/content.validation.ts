@@ -25,7 +25,7 @@ const contentSchema = Joi.object({
     'any.required': 'Type of content is required',
     'any.only': 'Type of content must be article, video or infographic'
   }),
-  requiredDays: Joi.number().required().messages({
+  requiredMonths: Joi.number().required().messages({
     'any.required': 'Please input required months'
   }),
   banner: Joi.string().allow(null, ''),

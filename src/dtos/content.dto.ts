@@ -33,3 +33,9 @@ export function toContentDto (content: ContentModel): ContentDto {
     updatedAt: content.updatedAt
   };
 }
+
+export function toListContentDto (contents: ContentModel[]): ContentDto[] {
+  if (!contents) return [];
+  
+  return contents.map(content => toContentDto(content));
+}
