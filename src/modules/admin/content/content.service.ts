@@ -3,7 +3,7 @@ import { toCategoryDto } from "../../../dtos/category.dto";
 import { toContentDto, toListContentDto } from "../../../dtos/content.dto";
 import { CategoryContentModel } from "../../../models/category_content.model";
 import { ContentModel } from "../../../models/content.model";
-import { checkCategoryByCateid, checkCategoryByName, checkContentByConid, countContentByType, getAllCategory, getAllCategoryAndContent, getAllContents, saveCategory, saveContent, updateCategory } from "../../../repositories/content.repository";
+import { checkCategoryByCateid, checkCategoryByName, getContentByConid, countContentByType, getAllCategory, getAllCategoryAndContent, getAllContents, saveCategory, saveContent, updateCategory, checkContentExits } from "../../../repositories/content.repository";
 import { ApiError } from "../../../utils/apiError";
 
 export async function createListCategory(listCat: Partial<CategoryContentModel>[]) {
@@ -80,11 +80,14 @@ export async function getAllCategoryStatistic(query: any){
     const typeVideo = cat.contents.filter((content) => content.type === CONTENT_TYPE.VIDEO).length;
     const typeInfographic = cat.contents.filter((content) => content.type === CONTENT_TYPE.INFOGRAPHIC).length;
 
+    const viewCount = cat.contents.reduce((acc, content) => acc + content.getViewCount(), 0);
+
     return {
       ...cat,
       Article: typeArticle,
       Video: typeVideo,
-      Infographic: typeInfographic
+      Infographic: typeInfographic,
+      Views: viewCount
     };
   })
 
@@ -118,7 +121,7 @@ export async function createContent(body: any) {
 
 export async function updateContentByConId(conId: string, body: any) {
   // check if content exists
-  const exitingContent = await checkContentByConid(conId);
+  const exitingContent = await checkContentExits(conId);
   if (!exitingContent) throw new ApiError ({ message: 'Content not found', status: 404, data: null });
 
   const {type, content, video, images, categoryId, requiredMonths, ...others} = body;
@@ -184,8 +187,8 @@ export async function getContentStatistics() {
   return result;
 }
 
-export async function getContentByConid(conId: string) {
-  const content = await checkContentByConid(conId);
+export async function getContentDetail(conId: string) {
+  const content = await getContentByConid(conId);
 
   if (!content) throw new ApiError ({ message: 'Content not found', status: 404, data: null });
 

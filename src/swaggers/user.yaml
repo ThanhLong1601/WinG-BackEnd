@@ -86,6 +86,68 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
+  /user/contents/{conid}:
+    get:
+      tags:
+        - 'User Content'
+      description: Get content by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: conid
+          required: true
+          schema:
+            type: string
+          description: Content id
+      responses:
+        200:
+          description: Content details
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+  /user/contents/{conid}/view:
+    put:
+      tags:
+        - 'User Content'
+      description: Add View
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: conid
+          required: true
+          schema:
+            type: string
+          description: Content id
+      responses:
+        200:
+          description: Add view success
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
 components:
   securitySchemes:
     bearerAuth:

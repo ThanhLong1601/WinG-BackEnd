@@ -1,34 +1,34 @@
 import { Router } from "express";
 import { adminAuth } from "../../middlewares/admin-authMiddleware";
 import { createContentValidation, createListCategoryValidation, updateCategoryValidation, updateContentStatusValidation, updateContentValidation } from "../../modules/admin/content/content.validation";
-import { ContentController } from "../../modules/admin/content/content.controller";
+import { AdminContentController } from "../../modules/admin/content/content.controller";
 
 const adminContentRouter = Router();
 
 // API for category
-adminContentRouter.post("/contents/categories", /*adminAuth,*/ createListCategoryValidation, ContentController.addCategories);
+adminContentRouter.post("/contents/categories", /*adminAuth,*/ createListCategoryValidation, AdminContentController.addCategories);
 
-adminContentRouter.get("/contents/categories", /*adminAuth,*/ ContentController.getCategoryAndStatistics);
+adminContentRouter.get("/contents/categories", /*adminAuth,*/ AdminContentController.getCategoryAndStatistics);
 
-adminContentRouter.get("/contents/categories/:cateid", /*adminAuth,*/ ContentController.getCategoryDetails);
+adminContentRouter.get("/contents/categories/:cateid", /*adminAuth,*/ AdminContentController.getCategoryDetails);
 
-adminContentRouter.patch("/contents/categories/:cateid", /*adminAuth,*/ updateCategoryValidation, ContentController.updateCategory);
+adminContentRouter.patch("/contents/categories/:cateid", /*adminAuth,*/ updateCategoryValidation, AdminContentController.updateCategory);
 
-adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ ContentController.getCategoryForDropDown);
+adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ AdminContentController.getCategoryForDropDown);
 
 
 // API for content
-adminContentRouter.post("/contents", /*adminAuth,*/ createContentValidation, ContentController.addContent);
+adminContentRouter.post("/contents", /*adminAuth,*/ createContentValidation, AdminContentController.addContent);
 
-adminContentRouter.get("/contents", /*adminAuth,*/ ContentController.getContents);
+adminContentRouter.get("/contents", /*adminAuth,*/ AdminContentController.getContents);
 
-adminContentRouter.get("/contents/statistics", /*adminAuth,*/ ContentController.getContentStatistic);
+adminContentRouter.get("/contents/statistics", /*adminAuth,*/ AdminContentController.getContentStatistic);
 
-adminContentRouter.get("/contents/:conid", /*adminAuth,*/ ContentController.getContentDetails);
+adminContentRouter.get("/contents/:conid", /*adminAuth,*/ AdminContentController.getContentDetails);
 
-adminContentRouter.patch("/contents/:conid", /*adminAuth,*/ updateContentValidation, ContentController.updateContent);
+adminContentRouter.patch("/contents/:conid", /*adminAuth,*/ updateContentValidation, AdminContentController.updateContent);
 
-adminContentRouter.patch("/contents/:conid/status", /*adminAuth,*/ updateContentStatusValidation, ContentController.updateContentStatus);
+adminContentRouter.patch("/contents/:conid/status", /*adminAuth,*/ updateContentStatusValidation, AdminContentController.updateContentStatus);
 
 
 export default adminContentRouter;

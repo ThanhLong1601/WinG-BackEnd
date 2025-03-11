@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomRequest } from "../../../utils/CustomRequest";
-import { createContent, createListCategory, getAllCategoryStatistic, getCategoryByCateid, getContentByConid, getContentStatistics, getListCategoryForDropDown, getListContent, updateCategoryByCateid, updateContentByConId } from "./content.service";
+import { createContent, createListCategory, getAllCategoryStatistic, getCategoryByCateid, getContentDetail, getContentStatistics, getListCategoryForDropDown, getListContent, updateCategoryByCateid, updateContentByConId } from "./content.service";
 
-export class ContentController {
+export class AdminContentController {
 
   /*
     Add categories
@@ -177,7 +177,7 @@ export class ContentController {
   static async getContentDetails(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { conid } = req.params;
-      const content = await getContentByConid(conid);
+      const content = await getContentDetail(conid);
       res.status(200).json({
         message: 'Content retrieved successfully',
         status: 200,

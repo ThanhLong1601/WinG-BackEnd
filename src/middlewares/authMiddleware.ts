@@ -2,6 +2,8 @@ import { Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getUserByUid } from '../repositories/user.repository';
 import { CustomRequest } from '../utils/CustomRequest';
+import { ApiError } from '../utils/apiError';
+import { pick } from 'lodash';
 
 export const appAuth = async (req: CustomRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -10,42 +12,45 @@ export const appAuth = async (req: CustomRequest, res: Response, next: NextFunct
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   } else {
-    res.status(401).json({ 
+    return next(new ApiError({
       message: 'Unauthorized',
       status: 401,
       data: null
-    });
-    return;
+    }));
   }
 
   if (!token) {
-    res.status(401).json({
+    return next(new ApiError({
       message: 'Access denied. No token provided',
       status: 401,
       data: null
-    });
-    return;
+    }));
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+
     const user = await getUserByUid(decoded.uid);
+
     if (!user) {
-      res.status(401).json({ // fix status code
+      throw new ApiError({
         message: 'User not found',
         status: 401,
         data: null
       });
-      return;
     }
-    req.user = decoded;
+
+    req.user = pick(user, ['uid']);
     next();
   } catch (error) {
-    res.status(401).json({
+    if (error instanceof ApiError) {
+      return next(error);
+    }
+
+    return next(new ApiError({
       message: 'Unauthorized access',
       status: 401,
       data: null
-    });
-    return;
+    }));
   }
-}
+};

@@ -3,6 +3,8 @@ import { dataSource } from "../data-source";
 import { CategoryContentModel } from "../models/category_content.model";
 import { ContentModel } from "../models/content.model";
 import { CONTENT_STATUS, CONTENT_TYPE } from "../constants/content.constants";
+import { UserModel } from "../models/user.model";
+import { UserViewContentModel } from "../models/user_view_content.model";
 
 /*
   -----------------------REPOSITORY FOR CATEGORY
@@ -43,6 +45,7 @@ export async function getAllCategory() {
   const categoryRepository = dataSource.getRepository(CategoryContentModel);
   const result = await categoryRepository.find({
     where: { status: CONTENT_STATUS.ACTIVE },
+    order: { name: 'ASC' }
   });
   return result;
 }
@@ -51,7 +54,7 @@ export async function getAllCategoryAndContent(page: number, perPage: number) {
   const categoryRepository = dataSource.getRepository(CategoryContentModel);
 
   const result = await categoryRepository.findAndCount({
-    relations: ['contents'],
+    relations: ['contents.userViewContents'],
     take: perPage,
     skip: (page - 1) * perPage
   });
@@ -72,11 +75,11 @@ export async function saveContent(data: Partial<ContentModel>) {
   return newContent;
 }
 
-export async function checkContentByConid(conid: string) {
+export async function getContentByConid(conid: string) {
   const contentRepository = dataSource.getRepository(ContentModel);
   const content = await contentRepository.findOne({ 
     where: { conid },
-    relations: ['category']
+    relations: ['category', 'userViewContents']
   });
 
   return content;
@@ -89,7 +92,7 @@ export async function getAllContents(filter: string, page: number, perPage: numb
 
   const result = await contentRepository.findAndCount({
     where: whereCondition,
-    relations: ['category'],
+    relations: ['category', 'userViewContents'],
     order: { createdAt: 'DESC' },
     take: perPage,
     skip: (page - 1) * perPage
@@ -107,4 +110,31 @@ export async function countContentByType() {
   ]);
 
   return { articleCount, videoCount, infographicCount };
+}
+
+export async function checkContentExits(conid: string) {
+  const contentRepository = dataSource.getRepository(ContentModel)
+
+  return await contentRepository.findOne({
+    where: {conid}
+  })
+}
+
+export async function saveUserViewContent(conid: string, uid: string) {
+  const userViewContentRepository = dataSource.getRepository(UserViewContentModel);
+
+  let userViewContent = await userViewContentRepository.findOne({where: {conid, uid}})
+
+  if (userViewContent) {
+    userViewContent.views += 1;
+    await userViewContentRepository.save(userViewContent);
+  } else {
+    userViewContent = userViewContentRepository.create({
+      conid, uid
+    });
+
+    await userViewContentRepository.save(userViewContent);
+  }
+
+  return true;
 }

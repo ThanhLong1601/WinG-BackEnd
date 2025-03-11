@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseModel } from "./base.model";
 import { CategoryContentModel } from "./category_content.model";
+import { UserViewContentModel } from "./user_view_content.model";
 
 @Entity('contents')
 export class ContentModel extends BaseModel {
@@ -38,4 +39,15 @@ export class ContentModel extends BaseModel {
   @ManyToOne(() => CategoryContentModel, (category) => category.contents)
   @JoinColumn({ name: 'category_id' })
   category: CategoryContentModel;
+
+  @OneToMany(() => UserViewContentModel, (userViewContent) => userViewContent.content)
+  userViewContents: UserViewContentModel[];
+
+  getViewCount(): number {
+    if (!this.userViewContents) {
+      return 0;
+    }
+
+    return this.userViewContents.reduce((totalViews, userViewContent) => totalViews + userViewContent.views, 0);
+  }
 }

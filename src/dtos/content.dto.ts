@@ -13,6 +13,7 @@ interface ContentDto {
   video: string,
   images: string[] | null,
   status: string,
+  viewCount: number,
   createdAt: Date,
   updatedAt: Date
 };
@@ -29,6 +30,7 @@ export function toContentDto (content: ContentModel): ContentDto {
     video: content.video,
     images: content.images && Array.isArray(content.images) ? content.images : null,
     status: content.status,
+    viewCount: content.getViewCount(),
     createdAt: content.createdAt,
     updatedAt: content.updatedAt
   };

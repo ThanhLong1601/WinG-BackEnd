@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseModel } from "./base.model";
+import { UserViewContentModel } from "./user_view_content.model";
 
 @Entity('users')
 export class UserModel extends BaseModel {
@@ -51,4 +52,6 @@ export class UserModel extends BaseModel {
   @Column('boolean', { name: 'need_update_profile', default: true })
   needUpdateProfile: boolean;
 
+  @OneToMany(() => UserViewContentModel, userViewContent => userViewContent.user)
+  userViewContents: UserViewContentModel[];
 }
