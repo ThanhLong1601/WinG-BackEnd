@@ -21,7 +21,7 @@ export const createListCategoryValidation = celebrate({
 });
 
 const contentSchema = Joi.object({
-  typeOfContent: Joi.string().required().valid(...Object.values(CONTENT_TYPE)).messages({
+  type: Joi.string().required().valid(...Object.values(CONTENT_TYPE)).messages({
     'any.required': 'Type of content is required',
     'any.only': 'Type of content must be article, video or infographic'
   }),
@@ -37,7 +37,10 @@ const contentSchema = Joi.object({
   }),
   content: Joi.string().allow(null, ''),
   video: Joi.string().allow(null, ''),
-  images: Joi.string().allow(null, '')
+  images: Joi.alternatives().try(
+    Joi.array().items(Joi.string()), // array of string
+    Joi.valid(null)                  // or null
+  ),
 });
 
 export const createContentValidation = celebrate({

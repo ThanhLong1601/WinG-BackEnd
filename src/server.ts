@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import dotenv from 'dotenv';
 import { env } from 'process';
 import { dataSource } from './data-source';
@@ -11,6 +11,7 @@ import cors from 'cors';
 import userRouter from './routes/app/user.routes';
 import adminAuthRouter from './routes/admin/auth.routes';
 import adminContentRouter from './routes/admin/admin-content.routes';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 
 dotenv.config();
 
@@ -39,10 +40,11 @@ app.use('/api/user', userRouter);
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin', adminContentRouter);
 
-
 app.use(errors());
+app.use(errorMiddleware);
 
 setupSwagger(app);
+
 
 dataSource.initialize()
   .then(async () => {

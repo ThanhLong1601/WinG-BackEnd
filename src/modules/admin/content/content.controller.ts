@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { CustomRequest } from "../../../utils/CustomRequest";
 import { createContent, createListCategory, getAllCategoryStatistic, getListCategoryForDropDown, getListContent, updateCategoryByCateid, updateContentByConId } from "./content.service";
 
@@ -7,7 +7,7 @@ export class ContentController {
   /*
     Add categories
   */
-  static async addCategories(req: CustomRequest, res: Response) {
+  static async addCategories(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { body } = req;
       const { categories } = body;
@@ -18,19 +18,14 @@ export class ContentController {
         data: newCategories
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null,
-        details: error.details || null
-      });
+      next(error);
     }
   }
 
   /*
     Update category
   */
-  static async updateCategory(req: CustomRequest, res: Response) {
+  static async updateCategory(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { cateid } = req.params;
       const { body } = req;
@@ -42,18 +37,14 @@ export class ContentController {
         data: newCategory
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Get All categories for dropdown
   */
-  static async getCategoryForDropDown(req: Request, res: Response) {
+  static async getCategoryForDropDown(req: Request, res: Response, next: NextFunction) {
     try {
       const categories = await getListCategoryForDropDown();
       res.status(200).json({
@@ -62,18 +53,14 @@ export class ContentController {
         data: categories
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Get All categories and statistics
   */
-  static async getCategoryAndStatistics(req: Request, res: Response) {
+  static async getCategoryAndStatistics(req: Request, res: Response, next: NextFunction) {
     try {
       const catogories = await getAllCategoryStatistic(req.query);
       res.status(200).json({
@@ -82,18 +69,14 @@ export class ContentController {
         data: catogories
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Add content
   */
-  static async addContent(req: CustomRequest, res: Response) {
+  static async addContent(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { body } = req;
       const newContent = await createContent(body);
@@ -103,18 +86,14 @@ export class ContentController {
         data: newContent
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Update content
   */
-  static async updateContent(req: CustomRequest, res: Response) {
+  static async updateContent(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { conid } = req.params;
       const { body } = req;
@@ -126,18 +105,14 @@ export class ContentController {
         data: newContent
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Update content status
   */
-  static async updateContentStatus(req: CustomRequest, res: Response) {
+  static async updateContentStatus(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { conid } = req.params;
       const { body } = req;
@@ -149,18 +124,14 @@ export class ContentController {
         data: newContent
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 
   /*
     Get All contents
   */
-  static async getContents(req: Request, res: Response) {
+  static async getContents(req: Request, res: Response, next: NextFunction) {
     try {
       const contents = await getListContent(req.query);
       res.status(200).json({
@@ -169,11 +140,7 @@ export class ContentController {
         data: contents
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 

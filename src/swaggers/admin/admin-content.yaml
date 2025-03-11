@@ -194,16 +194,18 @@ paths:
         - bearerAuth: []
 
       requestBody:
+        description: | 
+          Content type: article, video, or infographic
         required: true
         content:
           application/json:
             schema:
               type: 'object'
               properties:
-                typeOfContent:
+                type:
                   type: string
                   required: true
-                  example: 'article || video || infographic'
+                  example: 'article'
                 requiredDays:
                   type: integer
                   required: true
@@ -220,7 +222,10 @@ paths:
                   type: string
                   required: false
                 images:
-                  type: string
+                  type: array
+                  items:
+                    type: string
+                  nullable: true
                   required: false
                 video:
                   type: string
@@ -317,16 +322,18 @@ paths:
             type: string
           description: Content id
       requestBody:
+        description: | 
+          Content type: article, video, or infographic
         required: true
         content:
           application/json:
             schema:
               type: 'object'
               properties:
-                typeOfContent:
+                type:
                   type: string
                   required: false
-                  example: 'article || video || infographic'
+                  example: 'article'
                 requiredDays:
                   type: integer
                   required: false
@@ -343,7 +350,10 @@ paths:
                   type: string
                   required: false
                 images:
-                  type: string
+                  type: array
+                  items:
+                    type: string
+                  nullable: true
                   required: false
                 video:
                   type: string

@@ -7,8 +7,8 @@ export class ContentModel extends BaseModel {
   @PrimaryGeneratedColumn('uuid', { name: 'conid' })
   conid: string;
 
-  @Column('varchar', { name: 'type_of_content' })
-  typeOfContent: string;
+  @Column('varchar', { name: 'type' })
+  type: string;
 
   @Column('int', { name: 'required_days', nullable: true })
   requiredDays: number;
@@ -29,8 +29,8 @@ export class ContentModel extends BaseModel {
   @Column('varchar', { name: 'video', nullable: true })
   video: string;
 
-  @Column('varchar', { name: 'images', nullable: true })
-  images: string;
+  @Column('json', { name: 'images', nullable: true })
+  images: string[];
 
   @Column('varchar', { name: 'status', default: 'active' })
   status: string;
