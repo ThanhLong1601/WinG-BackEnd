@@ -148,6 +148,81 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
+  /user/contents/categories/dropdown:
+    get:
+      tags:
+        - 'User Content'
+      description: Get categories dropdown
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: List of categories
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+  /user/contents:
+    get:
+      tags:
+        - 'User Content'
+      description: Get all content
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: filter
+          description: 'Filter content by category ID'
+          schema:
+            type: string
+            example: all
+            # enum: ['all', <category ID>]
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          description: All category
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
 components:
   securitySchemes:
     bearerAuth:

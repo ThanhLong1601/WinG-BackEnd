@@ -23,18 +23,31 @@ export class AdminContentController {
   }
 
   /*
-    Update category
+    Get All categories and statistics
   */
-  static async updateCategory(req: CustomRequest, res: Response, next: NextFunction) {
+  static async getCategoryAndStatistics(req: Request, res: Response, next: NextFunction) {
     try {
-      const { cateid } = req.params;
-      const { body } = req;
-      // const { uid } = user;
-      const newCategory = await updateCategoryByCateid(cateid, body);
+      const catogories = await getAllCategoryStatistic(req.query);
       res.status(200).json({
-        message: 'Category updated successfully',
+        message: 'Category retrieved successfully',
         status: 200,
-        data: newCategory
+        data: catogories
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /*
+    Get All categories for dropdown
+  */
+  static async getCategoryForDropDown(req: Request, res: Response, next: NextFunction) {
+    try {
+      const categories = await getListCategoryForDropDown();
+      res.status(200).json({
+        message: 'Category retrieved successfully',
+        status: 200,
+        data: categories
       });
     } catch (error) {
       next(error);
@@ -59,36 +72,24 @@ export class AdminContentController {
   }
 
   /*
-    Get All categories for dropdown
+    Update category
   */
-  static async getCategoryForDropDown(req: Request, res: Response, next: NextFunction) {
+  static async updateCategory(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const categories = await getListCategoryForDropDown();
+      const { cateid } = req.params;
+      const { body } = req;
+      // const { uid } = user;
+      const newCategory = await updateCategoryByCateid(cateid, body);
       res.status(200).json({
-        message: 'Category retrieved successfully',
+        message: 'Category updated successfully',
         status: 200,
-        data: categories
+        data: newCategory
       });
     } catch (error) {
       next(error);
     }
   }
 
-  /*
-    Get All categories and statistics
-  */
-  static async getCategoryAndStatistics(req: Request, res: Response, next: NextFunction) {
-    try {
-      const catogories = await getAllCategoryStatistic(req.query);
-      res.status(200).json({
-        message: 'Category retrieved successfully',
-        status: 200,
-        data: catogories
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
 
   /*
     Add content

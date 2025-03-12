@@ -93,7 +93,7 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-
+                
   /admin/contents/categories/dropdown:
     get:
       tags:
@@ -299,7 +299,7 @@ paths:
           schema:
             type: string
             example: all
-            enum: ['all', <category ID>]
+            # enum: ['all', <category ID>]
         - in: query
           name: page
           schema:

@@ -1,5 +1,5 @@
 import { CATEGORY_CONTENT_STATUS, CONTENT_TYPE } from "../../../constants/content.constants";
-import { toCategoryDto } from "../../../dtos/category.dto";
+import { toCategoryDto, toCategoryWithStatisticDto } from "../../../dtos/category.dto";
 import { toContentDto, toListContentDto } from "../../../dtos/content.dto";
 import { CategoryContentModel } from "../../../models/category_content.model";
 import { ContentModel } from "../../../models/content.model";
@@ -82,14 +82,8 @@ export async function getAllCategoryStatistic(query: any){
 
     const viewCount = cat.contents.reduce((acc, content) => acc + content.getViewCount(), 0);
 
-    return {
-      ...cat,
-      Article: typeArticle,
-      Video: typeVideo,
-      Infographic: typeInfographic,
-      Views: viewCount
-    };
-  })
+    return toCategoryWithStatisticDto(cat, typeArticle, typeVideo, typeInfographic, viewCount);
+  });
 
   return { categories: countTypes, total };
 }
@@ -119,9 +113,9 @@ export async function createContent(body: any) {
   return toContentDto(newContent);
 }
 
-export async function updateContentByConId(conId: string, body: any) {
+export async function updateContentByConId(conid: string, body: any) {
   // check if content exists
-  const exitingContent = await checkContentExits(conId);
+  const exitingContent = await checkContentExits(conid);
   if (!exitingContent) throw new ApiError ({ message: 'Content not found', status: 404, data: null });
 
   const {type, content, video, images, categoryId, requiredMonths, ...others} = body;
@@ -129,7 +123,9 @@ export async function updateContentByConId(conId: string, body: any) {
   const updated: Partial<ContentModel> = {
     ...exitingContent,
     ...others,
-    requiredMonths: requiredMonths !== '' ? requiredMonths * 30 : exitingContent.requiredMonths,
+    requiredMonths: requiredMonths !== '' && requiredMonths !== undefined && requiredMonths !== null
+                    ? requiredMonths * 30 
+                    : exitingContent.requiredMonths,
   };
 
   // Check input data of type

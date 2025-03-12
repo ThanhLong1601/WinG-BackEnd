@@ -1,9 +1,9 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import { CustomRequest } from "../../../utils/CustomRequest";
 import { updateUserProfile } from "./user.service";
 
 export class UserController {
-  static async updateProfileUser(req: CustomRequest, res: Response) {
+  static async updateProfileUser(req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const { body, user } = req;
       const { uid } = user;
@@ -15,11 +15,7 @@ export class UserController {
         data: dataUser
       });
     } catch (error) {
-      res.status(error.status || 500).json({
-        message: error.message || 'Internal Server Error',
-        status: error.status || 500,
-        data: null
-      });
+      next(error);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseModel } from "./base.model";
 import { UserViewContentModel } from "./user_view_content.model";
+import { UserContentModel } from "./user_content.model";
 
 @Entity('users')
 export class UserModel extends BaseModel {
@@ -54,4 +55,7 @@ export class UserModel extends BaseModel {
 
   @OneToMany(() => UserViewContentModel, userViewContent => userViewContent.user)
   userViewContents: UserViewContentModel[];
+
+  @OneToMany(() => UserContentModel, userContent => userContent.user)
+  userContents: UserContentModel[];
 }

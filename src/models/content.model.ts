@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { BaseModel } from "./base.model";
 import { CategoryContentModel } from "./category_content.model";
 import { UserViewContentModel } from "./user_view_content.model";
+import { UserContentModel } from "./user_content.model";
 
 @Entity('contents')
 export class ContentModel extends BaseModel {
@@ -50,4 +51,7 @@ export class ContentModel extends BaseModel {
 
     return this.userViewContents.reduce((totalViews, userViewContent) => totalViews + userViewContent.views, 0);
   }
+
+  @OneToMany(() => UserContentModel, (userContent) => userContent.content)
+  userContents: UserContentModel[];
 }

@@ -1,6 +1,5 @@
-import { toContentDto } from "../../../dtos/content.dto";
-import { checkContentExits, getContentByConid, saveUserViewContent } from "../../../repositories/content.repository";
-import { getUserByUid } from "../../../repositories/user.repository";
+import { toContentDto, toListContentDto, toListContentShortDto } from "../../../dtos/content.dto";
+import { checkContentExits, getContentAllowedSeen, getContentByConid, saveUserViewContent } from "../../../repositories/content.repository";
 import { ApiError } from "../../../utils/apiError";
 
 export async function getContentDetail(conid: string) {
@@ -23,4 +22,16 @@ export async function userViewContent(conid: string, user: any) {
   await saveUserViewContent(conid, uid);
 
   return true;
+}
+
+export async function getListContentBelongToUser(user: any, query: any) {
+  const {filter = 'all', page = 1, perPage = 1000 } = query;
+  const {uid} = user;
+
+  const result = await getContentAllowedSeen(uid, filter, page, perPage);
+
+  const contents = result[0];
+  const total = result[1];
+
+  return {contents: toListContentShortDto(contents), total };
 }

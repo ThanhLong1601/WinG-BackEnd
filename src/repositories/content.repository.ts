@@ -1,10 +1,11 @@
-import { In, Not } from "typeorm";
+import { In, LessThan, Not } from "typeorm";
 import { dataSource } from "../data-source";
 import { CategoryContentModel } from "../models/category_content.model";
 import { ContentModel } from "../models/content.model";
 import { CONTENT_STATUS, CONTENT_TYPE } from "../constants/content.constants";
 import { UserModel } from "../models/user.model";
 import { UserViewContentModel } from "../models/user_view_content.model";
+import dayjs from "dayjs";
 
 /*
   -----------------------REPOSITORY FOR CATEGORY
@@ -137,4 +138,26 @@ export async function saveUserViewContent(conid: string, uid: string) {
   }
 
   return true;
+}
+
+export async function getContentAllowedSeen(uid: string, filter: string, page: number, perPage: number) {
+  const contentRepository = dataSource.getRepository(ContentModel);
+
+  const whereCondition = filter === 'all' ? {} : { categoryId: filter };
+
+  const result = await contentRepository.findAndCount({
+    where: {
+      ...whereCondition,
+      userContents: {
+        uid,
+        isAccess: true,
+      },
+    },
+    relations: ['category', 'userContents'],
+    order: { createdAt: 'DESC' },
+    take: perPage,
+    skip: (page - 1) * perPage,
+  });
+
+  return result;
 }

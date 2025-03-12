@@ -12,4 +12,9 @@ userRouter.get("/contents/:conid", appAuth, ContentController.getContentDetails)
 
 userRouter.put("/contents/:conid/view", appAuth, ContentController.addView)
 
+userRouter.get("/contents/categories/dropdown", appAuth, ContentController.getCategoryForDropDown)
+
+userRouter.get("/contents", appAuth, ContentController.getContentsBelongToUser)
+
+
 export default userRouter;

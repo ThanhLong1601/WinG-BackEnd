@@ -12,6 +12,7 @@ import userRouter from './routes/app/user.routes';
 import adminAuthRouter from './routes/admin/auth.routes';
 import adminContentRouter from './routes/admin/admin-content.routes';
 import { errorMiddleware } from './middlewares/errorMiddleware';
+import './crons/content.cron';
 
 dotenv.config();
 

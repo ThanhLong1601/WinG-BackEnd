@@ -2,7 +2,7 @@ import { ContentModel } from "../models/content.model";
 import { CategoryDto, toCategoryDto } from "./category.dto";
 
   
-interface ContentDto {
+export interface ContentDto {
   conid: string,
   type: string,
   requiredMonths: number,
@@ -40,4 +40,26 @@ export function toListContentDto (contents: ContentModel[]): ContentDto[] {
   if (!contents) return [];
   
   return contents.map(content => toContentDto(content));
+}
+
+export interface ContentShortDto {
+  conid: string,
+  banner: string,
+  title: string,
+  type: string,
+  createdAt: Date
+}
+
+export function toListContentShortDto (contents: ContentModel[]): ContentShortDto[] {
+  if (!contents) return [];
+  
+  return contents.map(content => {
+    return {
+      conid: content.conid,
+      banner: content.banner,
+      title: content.title,
+      type: content.type,
+      createdAt: content.createdAt
+    }
+  });
 }

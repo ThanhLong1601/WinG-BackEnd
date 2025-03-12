@@ -10,11 +10,12 @@ adminContentRouter.post("/contents/categories", /*adminAuth,*/ createListCategor
 
 adminContentRouter.get("/contents/categories", /*adminAuth,*/ AdminContentController.getCategoryAndStatistics);
 
+adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ AdminContentController.getCategoryForDropDown);
+
 adminContentRouter.get("/contents/categories/:cateid", /*adminAuth,*/ AdminContentController.getCategoryDetails);
 
 adminContentRouter.patch("/contents/categories/:cateid", /*adminAuth,*/ updateCategoryValidation, AdminContentController.updateCategory);
 
-adminContentRouter.get("/contents/categories/dropdown", /*adminAuth,*/ AdminContentController.getCategoryForDropDown);
 
 
 // API for content
