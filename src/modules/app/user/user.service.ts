@@ -1,6 +1,8 @@
 import { toUserDto } from "../../../dtos/user.dto";
+import { toUserSettingDto } from "../../../dtos/user_setting.dto";
 import { UserModel } from "../../../models/user.model";
 import { getUserByUid, saveUser, updateUser } from "../../../repositories/user.repository";
+import { getUserSettingByUid, saveUserSetting } from "../../../repositories/user_setting.repository";
 
 export async function updateUserProfile(uid: string, body: any) {
   const user = await getUserByUid(uid);
@@ -25,4 +27,18 @@ export async function updateUserProfile(uid: string, body: any) {
   const dataUser = await updateUser(user, updated);
 
   return toUserDto(dataUser);
+}
+
+export async function userSettingUpdated(uid: string, body: any) {
+  let userSetting = await getUserSettingByUid(uid);
+
+  if (userSetting) {
+    userSetting = { ...userSetting, ...body };
+  } else {
+    userSetting = { uid, ...body };
+  }
+
+  const dataUserSetting = await saveUserSetting(userSetting);
+
+  return toUserSettingDto(dataUserSetting);
 }

@@ -223,6 +223,63 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
+                
+  /user/update-settings:
+    patch:
+      tags:
+        - 'User Setting'
+      description: Update user settings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                chatbotUpdates:
+                  type: boolean
+                  example: true
+                newEnrichUpdates:
+                  type: boolean
+                  example: true
+                generalRemindersAndUpdates:
+                  type: boolean
+                  example: true
+      responses:
+        200:
+          description: User settings updated successfully
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        401:
+          description: 'Unauthorized. Invalid or missing API key.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
 components:
   securitySchemes:
     bearerAuth:

@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseModel } from "./base.model";
 import { UserViewContentModel } from "./user_view_content.model";
 import { UserContentModel } from "./user_content.model";
+import { UserSettingModel } from "./user_setting.model";
 
 @Entity('users')
 export class UserModel extends BaseModel {
@@ -61,4 +62,7 @@ export class UserModel extends BaseModel {
 
   @OneToMany(() => UserContentModel, userContent => userContent.user)
   userContents: UserContentModel[];
+
+  @OneToOne(() => UserSettingModel, userSetting => userSetting.user)
+  userSetting: UserSettingModel;
 }

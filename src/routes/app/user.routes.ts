@@ -16,5 +16,6 @@ userRouter.get("/contents/categories/dropdown", appAuth, ContentController.getCa
 
 userRouter.get("/contents", appAuth, ContentController.getContentsBelongToUser)
 
+userRouter.patch("/update-settings", appAuth, UserController.updateUserSettings)
 
 export default userRouter;
