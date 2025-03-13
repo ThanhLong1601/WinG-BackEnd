@@ -2,27 +2,32 @@ import { toUserDto } from "../../../dtos/user.dto";
 import { getUserByPhoneNumber, saveUser } from "../../../repositories/user.repository";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../../../utils/jwtToken";
+import { UserModel } from "../../../models/user.model";
+import { ApiError } from "../../../utils/apiError";
+import { USER_STATUS } from "../../../constants/user.constants";
 
 export async function checkUserLogin(body: any) {
   const { pinCode, phone } = body;
   const user = await getUserByPhoneNumber(phone);
 
   if (!user) {
-    throw {
+    throw new ApiError ({
       message: 'Pin Code or Phone number is not correct. Please try again!',
-      status: 404,
+      status: 400,
       data: null
-    };
+    });
   }
+
+  checkUserIsValid(user);
 
   const isMatch = await bcrypt.compare(pinCode, user.pinCode);
 
   if (!isMatch) {
-    throw {
+    throw new ApiError ({
       message: 'Pin Code or Phone number is not correct. Please try again!',
       status: 400,
       data: null
-    };
+    });
   }
 
   const token = generateToken({ uid: user.uid });
@@ -36,16 +41,56 @@ export async function createUser(body: any) {
   const user = await getUserByPhoneNumber(phone);
 
   if (user) {
-    throw {
+    if (user.status === USER_STATUS.SUSPENDED) {
+      throw new ApiError({
+        message: 'User is suspended',
+        status: 403,
+        data: null
+      });
+    }
+    if (user.status === USER_STATUS.REQUESTING) {
+      throw new ApiError({
+        message: 'The account you have requested is our database. Please contact KKH liasion officer to retrieve your information',
+        status: 403,
+        data: null
+      });
+    }
+
+    throw new ApiError ({
       message: 'User already exists',
       status: 400,
       data: null
-    };
+    });
   }
 
   const pinHash = await bcrypt.hash(pinCode, 10);
 
-  const newUser = await saveUser({ ...others, phone, pinCode: pinHash });
+  const newUser = await saveUser({ ...others, phone, pinCode: pinHash, status: USER_STATUS.REQUESTING });
 
   return toUserDto(newUser);
+}
+
+export function checkUserIsValid(user: UserModel) {
+  if (!user) {
+    throw new ApiError({
+      message: 'User not found',
+      status: 404,
+      data: null
+    });
+  }
+
+  if (user.status === USER_STATUS.SUSPENDED) {
+    throw new ApiError({
+      message: 'User is suspended',
+      status: 403,
+      data: null
+    });
+  }
+  if (user.status === USER_STATUS.REQUESTING) {
+    throw new ApiError({
+      message: 'The account you have requested is our database. Please contact KKH liasion officer to retrieve your information',
+      status: 403,
+      data: null
+    });
+  }
 }

@@ -53,6 +53,9 @@ export class UserModel extends BaseModel {
   @Column('boolean', { name: 'need_update_profile', default: true })
   needUpdateProfile: boolean;
 
+  @Column('varchar', { name: 'status' })
+  status: string;
+
   @OneToMany(() => UserViewContentModel, userViewContent => userViewContent.user)
   userViewContents: UserViewContentModel[];
 
