@@ -223,11 +223,11 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-                
+
   /user/update-settings:
     patch:
       tags:
-        - 'User Setting'
+        - 'User'
       description: Update user settings
       security:
         - bearerAuth: []

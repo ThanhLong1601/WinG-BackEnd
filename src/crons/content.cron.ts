@@ -7,7 +7,7 @@ import { LessThan, LessThanOrEqual } from 'typeorm';
 import { UserContentModel } from '../models/user_content.model';
 
 
-cron.schedule('47 17 * * *', async () => {
+cron.schedule('36 12 * * *', async () => {
   const users = await dataSource.getRepository(UserModel).find();
 
   for ( const user of users) {

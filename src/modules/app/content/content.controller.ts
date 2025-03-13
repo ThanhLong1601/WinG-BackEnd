@@ -6,8 +6,10 @@ import { getListCategoryForDropDown } from "../../admin/content/content.service"
 export class ContentController {
   static async getContentDetails(req: CustomRequest, res: Response, next: NextFunction) {
     try {
+      const {user} = req;
+      const {uid} = user;
       const { conid } = req.params;
-      const content = await getContentDetail(conid);
+      const content = await getContentDetail(uid, conid);
       res.status(200).json({
         message: 'Content retrieved successfully',
         status: 200,

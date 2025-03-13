@@ -1,3 +1,4 @@
+import status from "http-status";
 import { ContentModel } from "../models/content.model";
 import { CategoryDto, toCategoryDto } from "./category.dto";
 
@@ -50,7 +51,7 @@ export interface ContentShortDto {
   createdAt: Date
 }
 
-export function toListContentShortDto (contents: ContentModel[]): ContentShortDto[] {
+export function toListContentForUserDto (contents: ContentModel[]): ContentShortDto[] {
   if (!contents) return [];
   
   return contents.map(content => {
@@ -60,6 +61,22 @@ export function toListContentShortDto (contents: ContentModel[]): ContentShortDt
       title: content.title,
       type: content.type,
       createdAt: content.createdAt
+    }
+  });
+}
+
+export function toListContentForAdminDto (contents: ContentModel[]) {
+  if (!contents) return [];
+  
+  return contents.map(content => {
+    return {
+      conid: content.conid,
+      title: content.title,
+      category: content.category ? toCategoryDto(content.category) : null,
+      type: content.type,
+      requiredMonths: content.requiredMonths / 30,
+      viewCount: content.getViewCount(),
+      status: content.status,
     }
   });
 }

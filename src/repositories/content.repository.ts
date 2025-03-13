@@ -6,6 +6,7 @@ import { CONTENT_STATUS, CONTENT_TYPE } from "../constants/content.constants";
 import { UserModel } from "../models/user.model";
 import { UserViewContentModel } from "../models/user_view_content.model";
 import dayjs from "dayjs";
+import { UserContentModel } from "../models/user_content.model";
 
 /*
   -----------------------REPOSITORY FOR CATEGORY
@@ -160,4 +161,21 @@ export async function getContentAllowedSeen(uid: string, filter: string, page: n
   });
 
   return result;
+}
+
+export async function getContentByUid(uid: string, conid: string) {
+  const userContentRepository = dataSource.getRepository(ContentModel);
+
+  const userContent = await userContentRepository.findOne({
+    where: { 
+      conid,
+      userContents: {
+        uid,
+        isAccess: true
+      }
+    },
+    relations: ['category', 'userViewContents']
+  });
+
+  return userContent;
 }

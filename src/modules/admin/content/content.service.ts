@@ -1,6 +1,6 @@
 import { CATEGORY_CONTENT_STATUS, CONTENT_TYPE } from "../../../constants/content.constants";
 import { toCategoryDto, toCategoryWithStatisticDto } from "../../../dtos/category.dto";
-import { toContentDto, toListContentDto } from "../../../dtos/content.dto";
+import { toContentDto, toListContentDto, toListContentForAdminDto } from "../../../dtos/content.dto";
 import { CategoryContentModel } from "../../../models/category_content.model";
 import { ContentModel } from "../../../models/content.model";
 import { checkCategoryByCateid, checkCategoryByName, getContentByConid, countContentByType, getAllCategory, getAllCategoryAndContent, getAllContents, saveCategory, saveContent, updateCategory, checkContentExits } from "../../../repositories/content.repository";
@@ -173,7 +173,7 @@ export async function getListContent(query: any) {
   const contents = result[0];
   const total = result[1];
 
-  return { contents: toListContentDto(contents), total };
+  return { contents: toListContentForAdminDto(contents), total };
 }
 
 
