@@ -14,9 +14,6 @@ export class UserContentModel extends BaseModel {
   @Column('varchar', { name: 'uid' })
   uid: string;
 
-  @Column('boolean', { name: 'is_access'})
-  isAccess: boolean;
-
   @ManyToOne(() => ContentModel, (content) => content.userContents)
   @JoinColumn({ name: 'conid' })
   content: ContentModel;

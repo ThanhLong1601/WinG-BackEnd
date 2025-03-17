@@ -1,4 +1,3 @@
-import status from "http-status";
 import { UserModel } from "../models/user.model";
 
 interface UserDto {
@@ -16,10 +15,12 @@ interface UserDto {
   vaginalDeliveries: number;
   caesareanSections: number;
   miscarriages: number;
+  needUpdateProfile: boolean;
+  timezone: number;
   status: string;
 }
 
-export function toUserDto(user: UserModel) {
+export function toUserDto(user: UserModel): UserDto {
   return {
     uid: user.uid,
     phone: user.phone,
@@ -36,6 +37,7 @@ export function toUserDto(user: UserModel) {
     caesareanSections: user.caesareanSections,
     miscarriages: user.miscarriages,
     needUpdateProfile: user.needUpdateProfile,
+    timezone: user.timezone,
     status: user.status,
   };
 }

@@ -35,7 +35,7 @@ export async function checkUserLogin(body: any) {
   return { user: toUserDto(user), token };
 }
 
-export async function createUser(body: any) {
+export async function createUser(body: any) { // add parameter acceptTimezone?: string to function if use timezone
   const { phone, pinCode, ...others } = body;
 
   const user = await getUserByPhoneNumber(phone);
@@ -65,7 +65,18 @@ export async function createUser(body: any) {
 
   const pinHash = await bcrypt.hash(pinCode, 10);
 
-  const newUser = await saveUser({ ...others, phone, pinCode: pinHash, status: USER_STATUS.REQUESTING });
+  // const validTimezones = dayjs.tz.names(); // List of timezone from dayjs is valid
+  // const userTimezone = validTimezones.includes(acceptTimezone as string) 
+  //   ? acceptTimezone
+  //   : 'UTC'; // Default timezone is UTC
+
+  const newUser = await saveUser({ 
+    ...others, 
+    phone, 
+    pinCode: pinHash, 
+    status: USER_STATUS.REQUESTING,
+    // timezone: userTimezone
+  });
 
   return toUserDto(newUser);
 }

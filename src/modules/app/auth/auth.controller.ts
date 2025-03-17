@@ -5,6 +5,7 @@ import { CustomRequest } from "../../../utils/CustomRequest";
 export class AuthController {
   static async requestAcc(req: CustomRequest, res: Response, next: NextFunction) {
     try {
+      // Add parameters req.headers['accept-timezone'] to createUser function
       const acc = await createUser(req.body);
       res.status(201).json({ 
         message: 'Your request has been sent successfully',

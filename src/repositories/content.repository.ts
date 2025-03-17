@@ -150,8 +150,7 @@ export async function getContentAllowedSeen(uid: string, filter: string, page: n
     where: {
       ...whereCondition,
       userContents: {
-        uid,
-        isAccess: true,
+        uid
       },
     },
     relations: ['category', 'userContents'],
@@ -170,8 +169,7 @@ export async function getContentByUid(uid: string, conid: string) {
     where: { 
       conid,
       userContents: {
-        uid,
-        isAccess: true
+        uid
       }
     },
     relations: ['category', 'userViewContents']

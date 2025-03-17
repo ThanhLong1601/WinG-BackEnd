@@ -18,4 +18,6 @@ userRouter.get("/contents", appAuth, ContentController.getContentsBelongToUser)
 
 userRouter.patch("/update-settings", appAuth, UserController.updateUserSettings)
 
+userRouter.patch("/update-timezone", appAuth, UserController.updateTimezone)
+
 export default userRouter;

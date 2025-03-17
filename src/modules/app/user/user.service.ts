@@ -3,6 +3,7 @@ import { toUserSettingDto } from "../../../dtos/user_setting.dto";
 import { UserModel } from "../../../models/user.model";
 import { getUserByUid, saveUser, updateUser } from "../../../repositories/user.repository";
 import { getUserSettingByUid, saveUserSetting } from "../../../repositories/user_setting.repository";
+import { ApiError } from "../../../utils/apiError";
 
 export async function updateUserProfile(uid: string, body: any) {
   const user = await getUserByUid(uid);
@@ -41,4 +42,18 @@ export async function userSettingUpdated(uid: string, body: any) {
   const dataUserSetting = await saveUserSetting(userSetting);
 
   return toUserSettingDto(dataUserSetting);
+}
+
+export async function updatedUserTimezone(uid: string, body: any) {
+  const user = await getUserByUid(uid);
+
+  if (body.timezone < -12 || body.timezone > 14) {
+    throw new ApiError({ message: 'Invalid timezone. Must be between -12 and 14.', status: 400, data: null });
+  }
+
+  const updated: Partial<UserModel> = { timezone: body.timezone };
+
+  const dataUser = await updateUser(user, updated);
+
+  return toUserDto(dataUser);
 }

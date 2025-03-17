@@ -280,6 +280,56 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
+  /user/update-timezone:
+    patch:
+      tags:
+        - 'User'
+      description: Update user timezone
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                timezone:
+                  type: integer
+                  example: 8
+      responses:
+        200:
+          description: User timezone updated successfully
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        401:
+          description: 'Unauthorized. Invalid or missing API key.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
 components:
   securitySchemes:
     bearerAuth:

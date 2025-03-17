@@ -53,6 +53,12 @@ export class UserModel extends BaseModel {
 
   @Column('boolean', { name: 'need_update_profile', default: true })
   needUpdateProfile: boolean;
+  
+  // If using way 2 in cron then change this field to like this.
+  //@Column('varchar', { name: 'timezone', length: 50, default: 'UTC' })
+  //timezone: string;
+  @Column('int', { name: 'timezone', default: 0})
+  timezone: number;
 
   @Column('varchar', { name: 'status' })
   status: string;
