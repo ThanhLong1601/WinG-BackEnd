@@ -11,13 +11,23 @@ import { UserContentModel } from '../models/user_content.model';
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-cron.schedule('44 12 * * *', async () => {
+cron.schedule('*/30 * * * *', async () => {
   const users = await dataSource.getRepository(UserModel).find();
 
   for ( const user of users) {
-    const nowInUserTimeZone = dayjs().utcOffset(user.timezone);
-    const createdAtInUserTZ = dayjs(user.createdAt).utcOffset(user.timezone);
-    const daysSinceCreated = nowInUserTimeZone.diff(createdAtInUserTZ, 'day');
+    // get user created time in UTC
+    const createdAtUTC = dayjs(user.createdAt);
+
+    // Switch createdAt to user timezone
+    const createdAtInUserTZ = createdAtUTC.utcOffset(user.timezone * 60);
+
+    // Get current time in user timezone
+    const nowInUserTimezone = dayjs().utcOffset(user.timezone * 60);
+
+    // Calculate days since created
+    const daysSinceCreated = Math.floor(nowInUserTimezone.diff(createdAtInUserTZ, 'day', true));
+
+    console.log(`🕒 User ${user.uid} - Timezone: UTC${user.timezone} - Days since created: ${daysSinceCreated}`);
 
     const contents = await dataSource.getRepository(ContentModel).find({
       where: { requiredMonths: LessThanOrEqual(daysSinceCreated) }

@@ -74,7 +74,7 @@ export async function createUser(body: any) { // add parameter acceptTimezone?: 
     ...others, 
     phone, 
     pinCode: pinHash, 
-    status: USER_STATUS.REQUESTING,
+    status: USER_STATUS.ACTIVE, // for now set ACTIVE to testing, when create admin then set to REQUESTING
     // timezone: userTimezone
   });
 

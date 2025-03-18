@@ -1,4 +1,4 @@
-import { toContentDto, toListContentForUserDto } from "../../../dtos/content.dto";
+import { toContentDto, toListContentDto, toListContentForUserDto } from "../../../dtos/content.dto";
 import { checkContentExits, getContentAllowedSeen, getContentByUid, saveUserViewContent } from "../../../repositories/content.repository";
 import { ApiError } from "../../../utils/apiError";
 
@@ -33,5 +33,5 @@ export async function getListContentBelongToUser(user: any, query: any) {
   const contents = result[0];
   const total = result[1];
 
-  return {contents: toListContentForUserDto(contents), total };
+  return {contents: toListContentDto(contents), total };
 }

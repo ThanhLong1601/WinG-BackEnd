@@ -13,6 +13,7 @@ const config: DataSourceOptions = {
   database: process.env.DB_NAME,
   synchronize: true,
   charset: 'utf8mb4',
+  timezone: 'Z',
   entities: ['src/models/**/*.ts'],
   migrations: ['src/migrations/**/*.ts'],
   migrationsTableName: 'content_migration',
