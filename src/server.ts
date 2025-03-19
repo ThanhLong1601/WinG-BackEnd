@@ -13,6 +13,7 @@ import adminAuthRouter from './routes/admin/auth.routes';
 import adminContentRouter from './routes/admin/admin-content.routes';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 import './crons/content.cron';
+import adminArtRoutes from './routes/admin/admin_art_journal.routes';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/user', userRouter);
 */
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin', adminContentRouter);
+app.use('/api/admin', adminArtRoutes);
 
 app.use(errors());
 app.use(errorMiddleware);

@@ -1,0 +1,133 @@
+paths:
+  /admin/art-journal:
+    post:
+      tags:
+        - 'Admin Art Journal'
+      description: Add Art Journal
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                name:
+                  type: string
+                  required: true
+                status:
+                  type: string
+                  required: false
+                  example: 'active || inactive'
+                point:
+                  type: integer
+                  required: false
+                isDrawCircle:
+                  type: boolean
+                  required: false
+                description:
+                  type: string
+                  required: false
+                banner:
+                  type: string
+                  required: false
+      responses:
+        200:
+          description: Add content successfull
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+                
+  /admin/art-journal/{aid}:
+    patch:
+      tags:
+        - 'Admin Art Journal'
+      description: Update Art Journal
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: Art Journal id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                name:
+                  type: string
+                  required: false
+                status:
+                  type: string
+                  required: false
+                  example: 'active || inactive'
+                point:
+                  type: integer
+                  required: false
+                isDrawCircle:
+                  type: boolean
+                  required: false
+                description:
+                  type: string
+                  required: false
+                banner:
+                  type: string
+                  required: false
+
+      responses:
+        200:
+          description: Update content successfull
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

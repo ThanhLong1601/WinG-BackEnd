@@ -3,6 +3,7 @@ import { BaseModel } from "./base.model";
 import { UserViewContentModel } from "./user_view_content.model";
 import { UserContentModel } from "./user_content.model";
 import { UserSettingModel } from "./user_setting.model";
+import { UserSubmisArtModel } from "./user_submis_art.model";
 
 @Entity('users')
 export class UserModel extends BaseModel {
@@ -63,6 +64,9 @@ export class UserModel extends BaseModel {
   @Column('varchar', { name: 'status' })
   status: string;
 
+  @Column('int', { name: 'point', default: 0 })
+  point: number;
+
   @OneToMany(() => UserViewContentModel, userViewContent => userViewContent.user)
   userViewContents: UserViewContentModel[];
 
@@ -71,4 +75,7 @@ export class UserModel extends BaseModel {
 
   @OneToOne(() => UserSettingModel, userSetting => userSetting.user)
   userSetting: UserSettingModel;
+
+  @OneToMany(() => UserSubmisArtModel, userSubmisArt => userSubmisArt.user)
+  userSubmisArts: UserSubmisArtModel[];
 }
