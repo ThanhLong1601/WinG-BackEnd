@@ -1,4 +1,38 @@
 paths:
+  /admin/art-journal/statistics:
+    get:
+      tags:
+        - 'Admin Art Journal Statistics'
+      description: Get Art Journal Statistics
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: All Art Journal Statistics
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+                
   /admin/art-journal:
     post:
       tags:
@@ -6,7 +40,6 @@ paths:
       description: Add Art Journal
       security:
         - bearerAuth: []
-
       requestBody:
         content:
           application/json:
@@ -58,7 +91,49 @@ paths:
               message:
                 type: 'string'
                 description: 'Error message.'
-                
+    get:
+      tags:
+        - 'Admin Art Journal'
+      description: Get Art Journal
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          description: All Art Journal
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
   /admin/art-journal/{aid}:
     patch:
       tags:
@@ -98,10 +173,88 @@ paths:
                 banner:
                   type: string
                   required: false
-
       responses:
         200:
           description: Update content successfull
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+    get:
+      tags:
+        - 'Admin Art Journal'
+      description: Get Art Journal by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: Art Journal id
+      responses:
+        200:
+          description: Art Journal details
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
+  /admin/art-journal/{uaid}/submission:
+    get:
+      tags:
+        - 'Admin Submission'
+      description: Get Art Journal Submission
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: uaid
+          required: true
+          schema:
+            type: string
+          description: User Art Journal id
+      responses:
+        200:
+          description: Submission details
           schema:
             type: 'object'
             properties:

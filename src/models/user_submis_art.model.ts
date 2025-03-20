@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ArtJournal } from "./art_journal.model";
 import { UserModel } from "./user.model";
 import { BaseModel } from "./base.model";
@@ -36,8 +36,10 @@ export class UserSubmisArtModel extends BaseModel {
   status: string;
 
   @ManyToOne(() => ArtJournal, artJournal => artJournal.userSubmisArts)
+  @JoinColumn({ name: 'aid'})
   artJournal: ArtJournal;
 
   @ManyToOne(() => UserModel, user => user.userSubmisArts)
+  @JoinColumn({ name: 'uid'})
   user: UserModel;
 }

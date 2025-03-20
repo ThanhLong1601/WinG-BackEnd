@@ -19,7 +19,7 @@ export class ArtJournal extends BaseModel {
   @Column('boolean', { name: 'is_draw_circle', nullable: true })
   isDrawCircle: boolean;
 
-  @Column('varchar', { name: 'description', nullable: true })
+  @Column('text', { name: 'description', nullable: true })
   description: string;
 
   @Column('varchar', { name: 'banner', nullable: true })

@@ -1,0 +1,155 @@
+paths:
+  /user/art-journal/{aid}:
+    post:
+      tags:
+        - 'User Art Journal'
+      description: Save Drawing temporarily
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: Art Journal id
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                canvas:
+                  type: string
+                  required: true
+                userThoughts:
+                  type: string
+                  required: false
+      responses:
+        200:
+          description: Save Drawing temporarily successfully.
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+
+  /user/art-journal/{uaid}:
+    patch:
+      tags:
+        - 'User Art Journal'
+      description: Update Drawing
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: uaid
+          required: true
+          schema:
+            type: string
+          description: User Art Journal id
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                canvas:
+                  type: string
+                  required: false
+                userThoughts:
+                  type: string
+                  required: false
+      responses:
+        200:
+          description: Update Drawing successfully.
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+  /user/art-journal/{uaid}/submit:
+    post:
+      tags:
+        - 'User Art Journal'
+      description: Submit Drawing
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: uaid
+          required: true
+          schema:
+            type: string
+          description: User Art Journal id
+          
+      responses:
+        200:
+          description: Submit Drawing successfully.
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Success message.'
+
+        400:
+          description: 'Invalid request body. Missing required fields or incorrect data format.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+        500:
+          description: 'Internal server error.'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                description: 'Error message.'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

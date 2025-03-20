@@ -33,3 +33,30 @@ export function toListUserArtDTO(userArts: UserSubmisArtModel[]): UserArtDTO[] {
   
   return userArts.map(userArt => toUserArtDTO(userArt));
 }
+
+export function toListUserArtForAdminDTO(userArt: UserSubmisArtModel[]) {
+  if (!userArt) return [];
+
+  return userArt.map(userArt => ({
+    uaid: userArt.uaid,
+    aid: userArt.aid,
+    uid: userArt.uid,
+    userName: userArt.user?.name,
+    submissionDate: userArt.submissionDate,
+    pointsEarned: userArt.pointsEarned,
+    userThoughts: userArt.userThoughts ? "YES" : "NO",
+  }));
+}
+
+export function toUserArtForAdminDTO(userArt: UserSubmisArtModel) {
+
+  return {
+    uaid: userArt.uaid,
+    topicName: userArt.artJournal?.name,
+    userName: userArt.user?.name,
+    submissionDate: userArt.submissionDate,
+    pointsEarned: userArt.pointsEarned,
+    submittedArtWork: userArt.submittedArtWork,
+    userThoughts: userArt.userThoughts,
+  };
+}

@@ -4,6 +4,7 @@ import { UserViewContentModel } from "./user_view_content.model";
 import { UserContentModel } from "./user_content.model";
 import { UserSettingModel } from "./user_setting.model";
 import { UserSubmisArtModel } from "./user_submis_art.model";
+import { UserStickerModel } from "./user_sticker.model";
 
 @Entity('users')
 export class UserModel extends BaseModel {
@@ -78,4 +79,7 @@ export class UserModel extends BaseModel {
 
   @OneToMany(() => UserSubmisArtModel, userSubmisArt => userSubmisArt.user)
   userSubmisArts: UserSubmisArtModel[];
+
+  @OneToMany(() => UserStickerModel, userSticker => userSticker.user)
+  userStickers: UserStickerModel[];
 }

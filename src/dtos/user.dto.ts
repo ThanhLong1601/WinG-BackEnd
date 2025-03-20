@@ -16,6 +16,7 @@ interface UserDto {
   caesareanSections: number;
   miscarriages: number;
   needUpdateProfile: boolean;
+  point: number;
   timezone: number;
   status: string;
 }
@@ -37,6 +38,7 @@ export function toUserDto(user: UserModel): UserDto {
     caesareanSections: user.caesareanSections,
     miscarriages: user.miscarriages,
     needUpdateProfile: user.needUpdateProfile,
+    point: user.point,
     timezone: user.timezone,
     status: user.status,
   };

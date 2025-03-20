@@ -8,7 +8,7 @@ const artJournalSchema = Joi.object({
   status: Joi.string().valid(...Object.values(ART_JOURNAL_STATUS)).messages({
     'any.only': 'Status must be active or inactive',
   }),
-  point: Joi.number().integer().min(0).default(0).messages({
+  point: Joi.number().integer().min(0).messages({
     'number.base': 'Point must be a number',
     'number.integer': 'Point must be an integer',
     'number.min': 'Point must be at least 0',
